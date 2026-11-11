@@ -1,22 +1,35 @@
-# مشروع أذكاري للأندرويد — بناء APK من الموبايل
+# مشروع أذكاري للأندرويد
 
-## أسهل طريقة: GitHub Actions (بدون Android Studio)
+تم تجهيز نسخة Android باستخدام Capacitor، مع الاحتفاظ بملف التطبيق الأصلي داخل `www/index.html`.
 
-1. افتح GitHub من متصفح الموبايل وسجّل الدخول أو أنشئ حسابًا.
-2. اضغط **New repository**، وسمّه `adhkari-android`، واختر **Public** أو **Private**، ثم أنشئه.
-3. من صفحة المستودع اختر **Add file > Upload files**.
-4. فك ضغط `adhkari_android_project.zip` أولًا، ثم ارفع محتويات المجلد كلها، بما فيها المجلد المخفي `.github`.
-   - تأكد أن `package.json` و`capacitor.config.json` و`www` ظاهرة في جذر المستودع.
-   - إذا لم يسمح لك متصفح الموبايل برفع المجلد المخفي `.github`، أخبرني؛ يوجد مسار بديل لإضافته من واجهة GitHub.
-5. اضغط **Commit changes**.
-6. افتح تبويب **Actions** في المستودع، ثم اختر **Build Adhkari APK**.
-7. اضغط **Run workflow** إذا لم يبدأ البناء تلقائيًا، ثم انتظر حتى ينتهي بنجاح.
-8. افتح عملية البناء الناجحة، وانزل إلى **Artifacts**، ثم نزّل `Adhkari-debug-APK`.
-9. فك ضغط ملف الـ Artifact، ثم ثبّت `app-debug.apk` على هاتف Android. قد يطلب Android السماح بالتثبيت من هذا المصدر.
+## المتطلبات
+- Node.js إصدار 20 أو أحدث
+- Android Studio
+- Android SDK (يتم تثبيته من Android Studio)
+- اتصال إنترنت أول مرة لتنزيل حزم Capacitor وGradle
 
-## ملاحظات مهمة
-- البناء يتم على خوادم GitHub؛ لا تحتاج Android Studio أو كمبيوتر.
-- قد تستغرق أول عملية بناء عدة دقائق.
-- لا تشارك كلمة مرور GitHub أو رموز التحقق مع أي شخص.
-- هذه نسخة Debug للتجربة والتثبيت الشخصي، وليست نسخة متجر Play موقّعة للنشر.
-- التطبيق يحتفظ بالتقدم محليًا على الجهاز.
+## إنشاء تطبيق APK
+1. فك ضغط المشروع.
+2. افتح المجلد `adhkari_android` في VS Code أو Terminal.
+3. نفّذ:
+
+```bash
+npm install
+npx cap add android
+npx cap sync android
+npx cap open android
+```
+
+4. داخل Android Studio انتظر انتهاء Gradle Sync.
+5. من القائمة اختر **Build > Build Bundle(s) / APK(s) > Build APK(s)**.
+6. بعد نجاح البناء اختر **locate** للوصول إلى ملف APK.
+
+عادةً يكون الملف هنا:
+`android/app/build/outputs/apk/debug/app-debug.apk`
+
+## ملاحظات
+- التطبيق يعمل محليًا ولا يحتاج إلى اتصال إنترنت بعد تثبيته.
+- عدّادات الأذكار تحفظ تقدمها على نفس الجهاز باستخدام Local Storage.
+- تم تعديل حساب تاريخ اليوم ليعتمد على تاريخ الجهاز المحلي بدل UTC.
+- إذا عدّلت `www/index.html` لاحقًا، نفّذ `npx cap sync android` ثم أعد بناء APK.
+- هذا مجلد مشروع قابل للبناء، وليس ملف APK مبنيًا بالفعل؛ يلزم Android Studio وAndroid SDK لإنتاج APK.
