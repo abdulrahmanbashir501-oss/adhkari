@@ -25,6 +25,12 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Prepare www folder
+        run: |
+          mkdir -p www
+          if [ -f index.html ]; then mv index.html www/index.html; fi
+          ls -la www
+
       - name: Install npm packages
         run: npm install
 
